@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchQuestions } from "../services/api";
+import axios from "axios";
+const API_BASE_URL = "http://localhost:8080/api"; // Change this as per your backend URL
+
 
 const QuestionsPage = () => {
     const [questions, setQuestions] = useState([]);
@@ -7,7 +10,18 @@ const QuestionsPage = () => {
     const [showAnswers, setShowAnswers] = useState(false);
 
     useEffect(() => {
-        fetchQuestions(page).then(setQuestions).catch(console.error);
+        // fetchQuestions(page).then(setQuestions).catch(console.error);
+        const populate = async () => {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`${API_BASE_URL}/dashboard?page=${page}&limit=20`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(response.data);
+            setQuestions(response.data.questions)
+        }
+        populate();
     }, [page]);
 
     return (

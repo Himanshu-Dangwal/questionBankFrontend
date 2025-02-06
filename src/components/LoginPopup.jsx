@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { login } from "../services/api";
+import { useNavigate } from 'react-router-dom';
 
 const LoginPopup = ({ onClose, setIsLoggedIn }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -12,6 +14,7 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
             localStorage.setItem("token", data.token);
             setIsLoggedIn(true);
             onClose();
+            navigate("/questions")
         } catch (err) {
             setError(err.message);
         }
