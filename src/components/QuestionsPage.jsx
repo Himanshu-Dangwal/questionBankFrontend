@@ -14,7 +14,7 @@ const QuestionsPage = () => {
         // fetchQuestions(page).then(setQuestions).catch(console.error);
         const populate = async () => {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`${API_BASE_URL}/dashboard?page=${page}&limit=20`, {
+            const response = await axios.get(`${API_BASE_URL}/dashboard?page=${page}&limit=10`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
