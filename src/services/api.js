@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/api"; // Change this as per your backend URL
+const API_BASE_URL = import.meta.env.VITE_HOST;
+// const API_BASE_URL = "http://localhost:8080/api"; // Change this as per your backend URL
 
 export const login = async (username, password) => {
     try {

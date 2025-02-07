@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import { fetchQuestions } from "../services/api";
 import axios from "axios";
-const API_BASE_URL = "http://localhost:8080/api"; // Change this as per your backend URL
+// const API_BASE_URL = "http://localhost:8080/api"; // Change this as per your backend URL
+const API_BASE_URL = import.meta.env.VITE_HOST;
 
 
 const QuestionsPage = () => {
