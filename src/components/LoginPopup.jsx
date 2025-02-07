@@ -55,6 +55,7 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
     const handleLogin = async () => {
         try {
             const data = await login(username, password);
+            localStorage.removeItem("token");
             localStorage.setItem("token", data.token);
             setIsLoggedIn(true);
             onClose();
