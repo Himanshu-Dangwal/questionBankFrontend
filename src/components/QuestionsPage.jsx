@@ -25,6 +25,20 @@ const QuestionsPage = () => {
         populate();
     }, [page]);
 
+    function handlePrevClick() {
+        setPage(page - 1);
+        if (showAnswers) {
+            setShowAnswers(!showAnswers);
+        }
+    }
+
+    function handleNextClick() {
+        setPage(page + 1);
+        if (showAnswers) {
+            setShowAnswers(!showAnswers);
+        }
+    }
+
     return (
         <div className="container mt-4">
             <h1 className="text-center fw-bold">Sharpen Your Skills – Answer the MCQs!</h1>
@@ -44,14 +58,21 @@ const QuestionsPage = () => {
                 {showAnswers ? "Hide Answers" : "Show Answers"}
             </button>
             <div className="mt-3 d-flex justify-content-between">
-                <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn btn-primary">
+                {/* <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn btn-primary">
+                    Prev
+                </button> */}
+                <button onClick={handlePrevClick} disabled={page === 1} className="btn btn-primary">
                     Prev
                 </button>
-                <button onClick={() => setPage(page + 1)} className="btn btn-primary">
+                {/* <button onClick={() => setPage(page + 1)} className="btn btn-primary">
+                    Next
+                </button> */}
+                <button onClick={handleNextClick} className="btn btn-primary">
                     Next
                 </button>
             </div>
         </div>
+        // </div >
     );
 };
 
