@@ -1,6 +1,8 @@
 import React from "react";
-import dubaiImage from "../assets/dubai-hero.jpg"; // Replace with actual image path
-import mcqImage from "../assets/mcq.jpg"; // Replace with actual image path
+import dubaiImage from "../assets/dubai-hero.jpg";
+import mcqImage from "../assets/mcq.jpg";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 
 const LandingPage = () => {
     return (
@@ -62,7 +64,7 @@ const LandingPage = () => {
                                 How do I get login credentials?
                             </button>
                         </h2>
-                        <div id="faq1" className="accordion-collapse collapse show">
+                        <div id="faq1" className="accordion-collapse collapse">
                             <div className="accordion-body">Contact our support team, and we'll provide you with access.</div>
                         </div>
                     </div>
@@ -83,7 +85,7 @@ const LandingPage = () => {
                             </button>
                         </h2>
                         <div id="faq3" className="accordion-collapse collapse">
-                            <div className="accordion-body">Each account is valid for 20 days from the date of activation.</div>
+                            <div className="accordion-body">Each account is valid for 30 days from the date of activation. Contact our team for more information.</div>
                         </div>
                     </div>
                 </div>
@@ -91,7 +93,7 @@ const LandingPage = () => {
 
             {/* Footer */}
             <footer className="text-center py-4 bg-dark text-white">
-                <p>© {new Date().getFullYear()} Dubai MCQ Portal. All Rights Reserved.</p>
+                <p>© {new Date().getFullYear()} Gulf Medical Experts Portal. All Rights Reserved.</p>
             </footer>
         </div>
     );
