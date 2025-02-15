@@ -11,8 +11,8 @@ const QuestionsPage = () => {
     const [results, setResults] = useState({});
     const [activeTime, setActiveTime] = useState(0);
     const [isActive, setIsActive] = useState(true);
-    const [questionNumber, setQuestionNumber] = useState(1)
-
+    const [questionNumber, setQuestionNumber] = useState(1);
+    const [showBanner, setShowBanner] = useState(true);
 
     useEffect(() => {
         const populate = async () => {
@@ -67,9 +67,9 @@ const QuestionsPage = () => {
 
     const handleSearchBoxClick = async () => {
         const token = localStorage.getItem('token');
-        const pageNumber = (questionNumber / 10) + 1;
+        const pageNumber = Math.ceil(questionNumber / 10);
         setPage(pageNumber);
-        const response = await axios.get(`${API_BASE_URL}/dashboard?page=${page}&limit=10`, {
+        const response = await axios.get(`${API_BASE_URL}/dashboard?page=${pageNumber}&limit=10`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         setQuestions(response.data.questions);
@@ -79,8 +79,16 @@ const QuestionsPage = () => {
 
     return (
         <div className="container mt-4">
+            {showBanner && (
+                <div className="alert alert-info d-flex justify-content-between align-items-center">
+                    <span>📌 Jump to the question number you want using the Jump box at the bottom.</span>
+                    <button className="btn-close" onClick={() => setShowBanner(false)}></button>
+                </div>
+            )}
+
             <h1 className="text-center fw-bold">Sharpen Your Skills – Answer the MCQs!</h1>
             <h5 className="text-center">🕒 Active Time: {Math.floor(activeTime / 60)} min {activeTime % 60} sec</h5>
+
             {questions.map((q) => (
                 <div key={q.questionNumber} className="card my-3 p-3 shadow-sm d-flex align-items-start">
                     <p className="fw-semibold">{q.questionNumber}. {q.questionText}</p>
@@ -112,21 +120,22 @@ const QuestionsPage = () => {
                     )}
                 </div>
             ))}
+
             <div className="mt-4">
                 <h5>📊 Stats</h5>
                 <p>Attempted: {attemptedCount} / {questions.length}</p>
                 <p>Correct: {correctCount} / {attemptedCount}</p>
             </div>
+
             <button onClick={() => setShowAnswers(!showAnswers)} className="btn btn-dark mt-3">
                 {showAnswers ? "Hide Answers" : "Show Answers"}
             </button>
-            {/* <input type="search-box" placeholder="Enter question number" onChange={handleSearchBoxChange} />
-            <button onClick={(e) => handleSearchBoxClick(e)}>Jump</button> */}
+
             <div className="d-flex align-items-center mt-3">
                 <input
                     type="text"
-                    className="form-control w-25"
-                    placeholder="Question number"
+                    className="form-control w-50"
+                    placeholder="Enter question number"
                     onChange={handleSearchBoxChange}
                 />
                 <button onClick={handleSearchBoxClick} className="btn btn-info ms-2">
@@ -138,11 +147,6 @@ const QuestionsPage = () => {
                 <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn btn-primary">
                     Prev
                 </button>
-                {/* {[...Array(5)].map((_, i) => (
-                    <button key={i} onClick={() => setPage(page + i)} className="btn btn-secondary mx-1">
-                        {page + i}
-                    </button>
-                ))} */}
                 <button onClick={() => setPage(page + 1)} className="btn btn-primary">
                     Next
                 </button>
@@ -152,4 +156,3 @@ const QuestionsPage = () => {
 };
 
 export default QuestionsPage;
-
