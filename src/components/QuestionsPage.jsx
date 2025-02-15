@@ -11,6 +11,8 @@ const QuestionsPage = () => {
     const [results, setResults] = useState({});
     const [activeTime, setActiveTime] = useState(0);
     const [isActive, setIsActive] = useState(true);
+    const [questionNumber, setQuestionNumber] = useState(1)
+
 
     useEffect(() => {
         const populate = async () => {
@@ -58,6 +60,23 @@ const QuestionsPage = () => {
     const attemptedCount = Object.keys(selectedAnswers).length;
     const correctCount = Object.values(results).filter(Boolean).length;
 
+    const handleSearchBoxChange = (e) => {
+        const value = e.target.value;
+        setQuestionNumber(value);
+    }
+
+    const handleSearchBoxClick = async () => {
+        const token = localStorage.getItem('token');
+        const pageNumber = (questionNumber / 10) + 1;
+        setPage(pageNumber);
+        const response = await axios.get(`${API_BASE_URL}/dashboard?page=${page}&limit=10`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        setQuestions(response.data.questions);
+        setSelectedAnswers({});
+        setResults({});
+    }
+
     return (
         <div className="container mt-4">
             <h1 className="text-center fw-bold">Sharpen Your Skills – Answer the MCQs!</h1>
@@ -101,6 +120,20 @@ const QuestionsPage = () => {
             <button onClick={() => setShowAnswers(!showAnswers)} className="btn btn-dark mt-3">
                 {showAnswers ? "Hide Answers" : "Show Answers"}
             </button>
+            {/* <input type="search-box" placeholder="Enter question number" onChange={handleSearchBoxChange} />
+            <button onClick={(e) => handleSearchBoxClick(e)}>Jump</button> */}
+            <div className="d-flex align-items-center mt-3">
+                <input
+                    type="text"
+                    className="form-control w-25"
+                    placeholder="Question number"
+                    onChange={handleSearchBoxChange}
+                />
+                <button onClick={handleSearchBoxClick} className="btn btn-info ms-2">
+                    Jump
+                </button>
+            </div>
+
             <div className="mt-3 d-flex justify-content-between">
                 <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn btn-primary">
                     Prev
