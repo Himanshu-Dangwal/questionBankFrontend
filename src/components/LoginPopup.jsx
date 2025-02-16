@@ -3,15 +3,17 @@ import { login } from "../services/api";
 import { useNavigate } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-
 const LoginPopup = ({ onClose, setIsLoggedIn }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async () => {
+        setLoading(true);
+        setError("");
         try {
             const data = await login(username, password);
             localStorage.removeItem("token");
@@ -21,6 +23,8 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
             navigate("/questions");
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -36,6 +40,7 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
                     className="form-control my-2"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    disabled={loading}
                 />
 
                 <div className="input-group my-2">
@@ -45,18 +50,39 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
                         className="form-control"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading}
                     />
                     <button
                         className="btn btn-outline-secondary"
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
+                        disabled={loading}
                     >
                         <i className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}></i>
                     </button>
                 </div>
 
-                <button onClick={handleLogin} className="btn btn-primary w-100">Login</button>
-                <button onClick={onClose} className="btn btn-link text-danger mt-2 w-100">Cancel</button>
+                <button
+                    onClick={handleLogin}
+                    className="btn btn-primary w-100"
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <>
+                            <span className="spinner-border spinner-border-sm me-2"></span> Logging in...
+                        </>
+                    ) : (
+                        "Login"
+                    )}
+                </button>
+
+                <button
+                    onClick={onClose}
+                    className="btn btn-link text-danger mt-2 w-100"
+                    disabled={loading}
+                >
+                    Cancel
+                </button>
             </div>
         </div>
     );
