@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { login } from "../services/api";
 import { useNavigate } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -10,6 +10,12 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, [])
 
     const handleLogin = async () => {
         setLoading(true);
@@ -35,6 +41,7 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
                 {error && <p className="text-danger">{error}</p>}
 
                 <input
+                    ref={inputRef}
                     type="text"
                     placeholder="Username"
                     className="form-control my-2"
