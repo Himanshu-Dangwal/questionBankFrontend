@@ -147,7 +147,7 @@ const QuestionsPage = () => {
                 <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn btn-primary">
                     Prev
                 </button>
-                <button onClick={() => setPage(page + 1)} className="btn btn-primary">
+                <button onClick={() => setPage(page + 1)} disabled={page === 141} className="btn btn-primary">
                     Next
                 </button>
             </div>
