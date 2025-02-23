@@ -3,9 +3,9 @@ import axios from "axios";
 const API_BASE_URL = import.meta.env.VITE_HOST;
 // const API_BASE_URL = "http://localhost:8080/api"; // Change this as per your backend URL
 
-export const login = async (username, password) => {
+export const login = async (username, password, captchaValue) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/auth/login`, { username, password });
+        const response = await axios.post(`${API_BASE_URL}/auth/login`, { username, password, captchaValue });
         return response.data;
     } catch (error) {
         throw error.response?.data?.message || "Login failed";
