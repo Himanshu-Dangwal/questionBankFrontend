@@ -18,7 +18,7 @@ const QuestionsPage = ({ setIsLoggedIn }) => {
 
     useEffect(() => {
         console.log("Rendered");
-    })
+    }, [])
 
     useEffect(() => {
         const checkSession = async () => {
