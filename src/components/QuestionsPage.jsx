@@ -4,7 +4,7 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_HOST;
 
-const QuestionsPage = () => {
+const QuestionsPage = ({ setIsLoggedIn }) => {
     const [questions, setQuestions] = useState([]);
     const [page, setPage] = useState(1);
     const [showAnswers, setShowAnswers] = useState(false);
@@ -22,6 +22,7 @@ const QuestionsPage = () => {
             const token = localStorage.getItem('token');
             if (!token) {
                 navigate("/");
+                setIsLoggedIn(false);
                 return;
             }
 
@@ -31,6 +32,8 @@ const QuestionsPage = () => {
                 });
             } catch (error) {
                 if (error.response && error.response.status === 401) {
+                    localStorage.removeItem("token");
+                    setIsLoggedIn(false);
                     navigate("/");
                 }
             }

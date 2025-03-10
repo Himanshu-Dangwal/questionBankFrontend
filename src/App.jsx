@@ -35,7 +35,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/questions" element={isLoggedIn ? <QuestionsPage /> : <Navigate to="/" />} />
+        <Route path="/questions" element={isLoggedIn ? <QuestionsPage setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/" />} />
       </Routes>
 
       {showLoginPopup && (
