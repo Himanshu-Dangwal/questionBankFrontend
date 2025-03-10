@@ -78,6 +78,7 @@ const QuestionsPage = ({ setIsLoggedIn }) => {
 
         document.addEventListener("visibilitychange", handleVisibilityChange);
         return () => {
+            console.log("Removing the active seconds count");
             clearInterval(interval);
             document.removeEventListener("visibilitychange", handleVisibilityChange);
         };
