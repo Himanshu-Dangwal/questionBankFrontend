@@ -4,13 +4,13 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_HOST;
 
-const QuestionsPage = ({ setIsLoggedIn }) => {
+const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
     const [questions, setQuestions] = useState([]);
     const [page, setPage] = useState(1);
     const [showAnswers, setShowAnswers] = useState(false);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [results, setResults] = useState({});
-    const [activeTime, setActiveTime] = useState(0);
+    // const [activeTime, setActiveTime] = useState(0);
     const [isActive, setIsActive] = useState(true);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [showBanner, setShowBanner] = useState(true);
@@ -46,7 +46,10 @@ const QuestionsPage = ({ setIsLoggedIn }) => {
 
         const interval = setInterval(checkSession, 1000 * 60 * 60);
 
-        return () => clearInterval(interval);
+        return () => {
+            console.log("chekcSession Called on logout");
+            clearInterval(interval);
+        }
     }, [navigate]);
 
     useEffect(() => {

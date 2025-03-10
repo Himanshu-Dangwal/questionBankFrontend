@@ -10,6 +10,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [activeTime, setActiveTime] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,11 +32,11 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} openLogin={() => setShowLoginPopup(true)} />
+      <Navbar isLoggedIn={isLoggedIn} activeTime={activeTime} setActiveTime={setActiveTime} setIsLoggedIn={setIsLoggedIn} openLogin={() => setShowLoginPopup(true)} />
 
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/questions" element={isLoggedIn ? <QuestionsPage setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/" />} />
+        <Route path="/questions" element={isLoggedIn ? <QuestionsPage setIsLoggedIn={setIsLoggedIn} activeTime={activeTime} setActiveTime={setActiveTime} /> : <Navigate to="/" />} />
       </Routes>
 
       {showLoginPopup && (
