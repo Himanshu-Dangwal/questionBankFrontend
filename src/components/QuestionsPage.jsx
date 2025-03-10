@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useDebugValue, useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_HOST;
@@ -13,6 +14,34 @@ const QuestionsPage = () => {
     const [isActive, setIsActive] = useState(true);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [showBanner, setShowBanner] = useState(true);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkSession = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                navigate("/");
+                return;
+            }
+
+            try {
+                await axios.get(`${API_BASE_URL}/checkSession`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    navigate("/");
+                }
+            }
+        };
+
+        checkSession();
+
+        const interval = setInterval(checkSession, 1000 * 60);
+
+        return () => clearInterval(interval);
+    }, [navigate]);
 
     useEffect(() => {
         const populate = async () => {
