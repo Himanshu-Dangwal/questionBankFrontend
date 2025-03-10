@@ -16,9 +16,9 @@ const QuestionsPage = ({ setIsLoggedIn }) => {
     const [showBanner, setShowBanner] = useState(true);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log("Rendered");
-    }, [])
+    // useEffect(() => {
+    //     console.log("Rendered");
+    // }, [])
 
     useEffect(() => {
         const checkSession = async () => {
@@ -77,10 +77,28 @@ const QuestionsPage = ({ setIsLoggedIn }) => {
         }
 
         document.addEventListener("visibilitychange", handleVisibilityChange);
-        return () => {
-            console.log("Removing the active seconds count");
-            clearInterval(interval);
+        return async () => {
             document.removeEventListener("visibilitychange", handleVisibilityChange);
+            clearInterval(interval);
+
+            // console.log("Removing the active seconds count")
+
+            //Call API to add active time for user, pass in the users auth token
+            if (activeTime > 0) {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    try {
+                        await axios.post(`${API_BASE_URL}/auth/updateActiveTime`,
+                            { activeTime },
+                            { headers: { Authorization: `Bearer ${token}` } }
+                        );
+                    } catch (error) {
+                        console.error("Error updating active time:", error);
+                    }
+                }
+            }
+            setActiveTime(0);
+
         };
     }, [isActive]);
 
