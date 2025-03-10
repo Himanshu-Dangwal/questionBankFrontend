@@ -14,8 +14,11 @@ const QuestionsPage = ({ setIsLoggedIn }) => {
     const [isActive, setIsActive] = useState(true);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [showBanner, setShowBanner] = useState(true);
-
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log("Rendered");
+    })
 
     useEffect(() => {
         const checkSession = async () => {
