@@ -41,7 +41,7 @@ const QuestionsPage = ({ setIsLoggedIn }) => {
 
         checkSession();
 
-        const interval = setInterval(checkSession, 1000 * 60);
+        const interval = setInterval(checkSession, 1000 * 60 * 60);
 
         return () => clearInterval(interval);
     }, [navigate]);
