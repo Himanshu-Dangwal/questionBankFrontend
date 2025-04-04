@@ -10,15 +10,10 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
     const [showAnswers, setShowAnswers] = useState(false);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [results, setResults] = useState({});
-    // const [activeTime, setActiveTime] = useState(0);
     const [isActive, setIsActive] = useState(true);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [showBanner, setShowBanner] = useState(true);
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     console.log("Rendered");
-    // }, [])
 
     useEffect(() => {
         const checkSession = async () => {
@@ -83,8 +78,6 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
         return async () => {
             document.removeEventListener("visibilitychange", handleVisibilityChange);
             clearInterval(interval);
-
-            // console.log("Removing the active seconds count")
 
             //Call API to add active time for user, pass in the users auth token
             if (activeTime > 0) {
