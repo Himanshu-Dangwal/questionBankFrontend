@@ -16,7 +16,6 @@ const QuestionsPage = () => {
     // const [isActive, setIsActive] = useState(true);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [showBanner, setShowBanner] = useState(true);
-    const [explanations, setExplanations] = useState({});
     const [loadingExplanation, setLoadingExplanation] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState("");

@@ -1,6 +1,8 @@
 import React, { useDebugValue, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from "axios";
+import ReactMarkdown from 'react-markdown';
+import "../styles/questionBank.css";
 
 const API_BASE_URL = import.meta.env.VITE_HOST;
 
@@ -13,6 +15,9 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
     const [isActive, setIsActive] = useState(true);
     const [questionNumber, setQuestionNumber] = useState(1);
     const [showBanner, setShowBanner] = useState(true);
+    const [loadingExplanation, setLoadingExplanation] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -127,6 +132,25 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
         setResults({});
     }
 
+    const getExplanation = async (q) => {
+        try {
+            setLoadingExplanation(prev => ({ ...prev, [q.questionNumber]: true }));
+            const response = await axios.post(`${API_BASE_URL}/explanations`, {
+                questionId: q._id
+            });
+
+            const explanationText = response.data.explanation;
+
+            setExplanations(prev => ({ ...prev, [q.questionNumber]: explanationText }));
+            setModalContent(explanationText);
+            setShowModal(true);
+        } catch (error) {
+            console.error(`Error fetching explanation: ${error}`);
+        } finally {
+            setLoadingExplanation(prev => ({ ...prev, [q.questionNumber]: false }));
+        }
+    };
+
     return (
         <div className="container mt-4">
             {showBanner && (
@@ -163,10 +187,39 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
                     >
                         Submit
                     </button>
-                    {results[q.questionNumber] !== undefined && (
+                    {/* {results[q.questionNumber] !== undefined && (
                         <p className={`fw-bold mt-2 ${results[q.questionNumber] ? 'text-success' : 'text-danger'}`}>
                             {results[q.questionNumber] ? "✅ Correct!" : `❌ Incorrect! Correct Answer: ${q[q.correctChoice]}`}
                         </p>
+                    )} */}
+                    {results[q.questionNumber] !== undefined && (
+                        <div className="mt-2">
+                            <p className={`fw-bold ${results[q.questionNumber] ? 'text-success' : 'text-danger'}`}>
+                                {results[q.questionNumber] ? "✅ Correct!" : `❌ Incorrect! Correct Answer: ${q[q.correctChoice]}`}
+                            </p>
+                            {!results[q.questionNumber] && (
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={() => getExplanation(q)}
+                                        className="btn btn-warning btn-sm mt-1"
+                                        disabled={loadingExplanation[q.questionNumber]}
+                                    >
+                                        {loadingExplanation[q.questionNumber] ? "Loading..." : "Explanation"}
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    )}
+
+                    {showModal && (
+                        <div className="hint-popup">
+                            <button className="close-popup" onClick={() => setShowModal(false)}>×</button>
+                            <h4>💡 Explanation</h4>
+                            <div className="hint-content">
+                                <ReactMarkdown>{modalContent}</ReactMarkdown>
+                            </div>
+                        </div>
                     )}
                 </div>
             ))}
