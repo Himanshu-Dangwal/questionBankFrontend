@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import LandingPage from "./components/LandingPage";
 import QuestionsPage from "./components/QuestionsPage";
 import LoginPopup from "./components/LoginPopup";
+import QuestionsStagingPage from "./components/QuestionsStagingPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/questions" element={isLoggedIn ? <QuestionsPage setIsLoggedIn={setIsLoggedIn} activeTime={activeTime} setActiveTime={setActiveTime} /> : <Navigate to="/" />} />
+        <Route path="/staging" element={<QuestionsStagingPage />} />
       </Routes>
 
       {showLoginPopup && (
