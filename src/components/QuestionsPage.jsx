@@ -18,6 +18,7 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
     const [loadingExplanation, setLoadingExplanation] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState("");
+    const [explanations, setExplanations] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
