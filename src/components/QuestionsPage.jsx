@@ -36,7 +36,7 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
                 });
 
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 if (error.response && error.response.status === 401) {
                     localStorage.removeItem("token");
                     console.log("Removed token");
@@ -50,7 +50,7 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
 
         checkSession();
 
-        const interval = setInterval(checkSession, 1000 * 60);
+        const interval = setInterval(checkSession, 1000 * 60 * 5);
 
         return () => {
             console.log("chekcSession Called on logout");
