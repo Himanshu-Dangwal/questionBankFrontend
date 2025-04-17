@@ -30,7 +30,7 @@ function Deactivate() {
     };
 
     return (
-        <div>
+        <div className='d-flex justify-content-center align-items-center'>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -38,7 +38,7 @@ function Deactivate() {
                     value={username}
                     onChange={handleChange}
                 />
-                <button type="submit">Deactivate</button>
+                <button type="submit">Activate/Deactivate</button>
             </form>
 
             {gotResponse && (
