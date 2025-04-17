@@ -31,15 +31,17 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
             }
 
             try {
-                await axios.get(`${API_BASE_URL}/checkSession`, {
+                const response = await axios.get(`${API_BASE_URL}/checkSession`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-            } catch (error) {
-                if (error.response && error.response.status === 401) {
+
+                if (response.status === 401 || response.status == 503) {
                     localStorage.removeItem("token");
                     setIsLoggedIn(false);
                     navigate("/");
                 }
+            } catch (error) {
+                console.log(error);
             }
         };
 
