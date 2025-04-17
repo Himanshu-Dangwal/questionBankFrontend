@@ -20,9 +20,9 @@ function Deactivate() {
                 username: username
             })
             if (response.status === 201) {
-                setBanner("Successfully Deactivated");
+                setBanner(response.message);
             } else {
-                setBanner("Some error while deactivating");
+                setBanner(response.message);
             }
         } catch (error) {
             setBanner("Error 404");
