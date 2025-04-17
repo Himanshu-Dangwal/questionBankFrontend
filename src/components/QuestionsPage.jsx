@@ -35,13 +35,16 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                if (response.status === 401 || response.status == 503) {
-                    localStorage.removeItem("token");
-                    setIsLoggedIn(false);
-                    navigate("/");
-                }
             } catch (error) {
                 console.log(error);
+                if (error.response && error.response.status === 401) {
+                    localStorage.removeItem("token");
+                    console.log("Removed token");
+                    setIsLoggedIn(false);
+                    navigate("/");
+                } else {
+                    console.log("Unexpected error:", error);
+                }
             }
         };
 
