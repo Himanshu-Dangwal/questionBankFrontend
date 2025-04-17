@@ -45,7 +45,7 @@ const QuestionsPage = ({ setIsLoggedIn, activeTime, setActiveTime }) => {
 
         checkSession();
 
-        const interval = setInterval(checkSession, 1000 * 60 * 60);
+        const interval = setInterval(checkSession, 1000 * 60);
 
         return () => {
             console.log("chekcSession Called on logout");
