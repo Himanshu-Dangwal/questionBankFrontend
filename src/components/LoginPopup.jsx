@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { login } from "../services/api";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from 'react-router-dom';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const SITE_KEY = import.meta.env.VITE_SITE_KEY;
@@ -30,7 +31,12 @@ const LoginPopup = ({ onClose, setIsLoggedIn }) => {
         }
 
         try {
-            const data = await login(username, password, captchaValue);
+            let deviceId = localStorage.getItem("deviceId");
+            if (!deviceId) {
+                deviceId = crypto.randomUUID();
+                localStorage.setItem("deviceId", deviceId);
+            }
+            const data = await login(username, password, captchaValue, deviceId);
             localStorage.setItem("token", data.token);
             setIsLoggedIn(true);
             onClose();
